@@ -30,7 +30,7 @@ MCP_CONFIG = {
 AGENTS = ("librarian", "mle_solver", "writer", "proposer", "reviewer")
 
 
-def compose_main_agent(
+def compose_holosophos_main_agent(
     model_name: str = settings.MODEL_NAME,
     max_completion_tokens: int = settings.MAX_COMPLETION_TOKENS,
     max_history_tokens: int = settings.MAX_HISTORY_TOKENS,
@@ -85,7 +85,13 @@ def compose_main_agent(
         tools=settings.REVIEWER_TOOLS,
     )
     prompts = PromptStorage.load(PROMPTS_DIR_PATH / "system.yaml")
-    agents = (librarian_agent, mle_solver_agent, writer_agent, proposer_agent, reviewer_agent)
+    agents = (
+        librarian_agent,
+        mle_solver_agent,
+        writer_agent,
+        proposer_agent,
+        reviewer_agent,
+    )
     managed_agents = [agent for agent in agents if agent.name in included_agents]
     if tools is None:
         tools = settings.MANAGER_TOOLS
@@ -103,7 +109,7 @@ def compose_main_agent(
     return agent
 
 
-async def run_main_agent(
+async def run_holosophos_main_agent(
     query: str,
     model_name: str = settings.MODEL_NAME,
     verbosity_level: int = logging.INFO,
@@ -119,13 +125,15 @@ async def run_main_agent(
             auto_instrument=True,
         )
         CodeActInstrumentor().instrument()
-    agent = compose_main_agent(
+    agent = compose_holosophos_main_agent(
         model_name=model_name,
         verbosity_level=verbosity_level,
         included_agents=included_agents,
     )
-    return await run_query(query, agent, mcp_config=MCP_CONFIG, add_mcp_server_prefixes=False)
+    return await run_query(
+        query, agent, mcp_config=MCP_CONFIG, add_mcp_server_prefixes=False
+    )
 
 
 if __name__ == "__main__":
-    fire.Fire(run_main_agent)
+    fire.Fire(run_holosophos_main_agent)

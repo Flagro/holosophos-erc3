@@ -8,7 +8,7 @@ from phoenix.otel import register
 from holosophos_erc.codearkt.otel import CodeActInstrumentor
 from holosophos_erc.codearkt.server import run_server
 
-from holosophos_erc.main_agent import MCP_CONFIG, compose_main_agent
+from holosophos_erc.holosophos_main_agent import MCP_CONFIG, compose_holosophos_main_agent
 from holosophos_erc.settings import settings
 
 
@@ -42,7 +42,7 @@ def server(
             auto_instrument=True,
         )
         CodeActInstrumentor().instrument()
-    agent = compose_main_agent(
+    agent = compose_holosophos_main_agent(
         model_name=model_name,
         verbosity_level=verbosity_level,
         max_completion_tokens=max_completion_tokens,

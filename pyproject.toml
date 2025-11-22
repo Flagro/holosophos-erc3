@@ -7,6 +7,8 @@ name = "holosophos_erc"
 version = "1.0.0"
 description = "Holosophos Project"
 requires-python = ">=3.12"
+# Note: erc3 package requires extra index: https://erc.timetoact-group.at/
+# Install with: pip install --extra-index-url https://erc.timetoact-group.at/ -e .
 dependencies = [
     "pyyaml>=5.3.1",
     "types-pyyaml>=5.3.1",
@@ -18,7 +20,7 @@ dependencies = [
     "academia-mcp==1.11.1",
     "mle-kit-mcp==1.2.3",
     "pydantic-settings>=2.6.1",
-    "openai>=1.0.0",
+    "openai>=2.8.1",
     "tiktoken>=0.5.0",
     "httpx>=0.24.0",
     "uvicorn>=0.24.0",
@@ -33,6 +35,8 @@ dependencies = [
     "openinference-semantic-conventions>=0.1.0",
     "openinference-instrumentation-openai>=0.1.0",
     "wrapt>=1.15.0",
+    "erc3>=1.0.4",
+    "annotated-types>=0.6.0",
 ]
 
 [dependency-groups]

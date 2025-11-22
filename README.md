@@ -1,11 +1,12 @@
 ### Holosophos
 
-Autonomous research assistant composed of specialized agents for literature discovery, experiment execution on remote GPUs, technical writing, idea generation, and paper review.
+Autonomous research assistant composed of specialized agents for literature discovery, experiment execution on remote GPUs, technical writing, idea generation, and paper review. Also includes ERC3 competition agents for benchmarks.
 
 Built on top of:
 - [CodeArkt agentic framework](https://github.com/IlyaGusev/codearkt)
 - [Academia MCP server](https://github.com/IlyaGusev/academia_mcp)
 - [MLE kit MCP server](https://github.com/IlyaGusev/mle_kit_mcp)
+- [ERC3 SDK](https://erc.timetoact-group.at/) - for AI Agents in Action competition
 
 
 ### Features
@@ -15,10 +16,11 @@ Built on top of:
 - **Writer**: Composes LaTeX reports/papers and compiles them to PDF.
 - **Proposer**: Generates and scores research ideas given context and a baseline paper.
 - **Reviewer**: Reviews papers with venue-grade criteria.
+- **ERC3 Agents**: Competition agents using Schema-Guided Reasoning for store and corporate benchmarks.
 
 ### Architecture at a glance
 - Server entrypoint: `holosophos_erc.server` (starts a CodeArkt server with the composed agent team)
-- Agent composition: `holosophos_erc.main_agent.compose_main_agent`
+- Agent composition: `holosophos_erc.holosophos_main_agent.compose_holosophos_main_agent`
 - Agent prompts: `holosophos_erc/prompts/*.yaml`
 - Settings: `holosophos_erc/settings.py` (env-driven via `pydantic-settings`)
 - External MCPs:
@@ -36,6 +38,9 @@ Built on top of:
 uv venv .venv
 source .venv/bin/activate
 make install
+
+# Note: If using ERC3 agents, you'll need the custom package index:
+pip install --extra-index-url https://erc.timetoact-group.at/ -e .
 ```
 
 ### Environment configuration
@@ -183,6 +188,47 @@ Prompts live under `holosophos_erc/prompts/` and can be customized per agent (`*
 - Format: `make black`
 - Lint & type-check: `make validate`
 - Tests: `make test`
+
+### ERC3 Competition Agents
+
+The project includes agents for the [ERC3: AI Agents in Action](https://www.timetoact-group.at/events/enterprise-rag-challenge-part-3) competition. These agents use Schema-Guided Reasoning to solve benchmark tasks.
+
+#### Getting Your ERC3 API Key
+
+1. Visit https://erc.timetoact-group.at/
+2. Enter the email address you used during registration
+3. Your API key will be displayed
+
+Note: If you haven't registered yet, visit the competition page and allow 24 hours for your registration to be processed.
+
+#### Running ERC3 Agents
+
+The ERC3 agents are located in `holosophos_erc/agents/` and can be run using the `main.py` script at the project root:
+
+```bash
+# Set up your environment variables
+export OPENAI_API_KEY=sk-...
+export ERC3_API_KEY=key-...
+
+# Run with default settings (store benchmark, gpt-4o)
+python main.py
+
+# Or specify custom settings
+python main.py --benchmark corporate --model gpt-4o-mini --workspace my-workspace
+```
+
+#### Available ERC3 Agents
+
+- **store_agent**: Agent for the store benchmark (product listings, basket management, coupons, checkout)
+- **corporate_agent**: Agent for the corporate benchmark (employee management, projects, task assignments, budget reports)
+
+Both agents use Schema-Guided Reasoning with recursive prompts for adaptive thinking capabilities.
+
+#### ERC3 Resources
+
+- Competition page: https://www.timetoact-group.at/events/enterprise-rag-challenge-part-3
+- ERC3 Platform: https://erc.timetoact-group.at/
+- Discord support: Available via registration email
 
 ### Troubleshooting
 - If the manager cannot reach MCP servers, verify `ACADEMIA_MCP_URL` and `MLE_KIT_MCP_URL` match the ports you started.
