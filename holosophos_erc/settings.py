@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
     ENABLE_PHOENIX: bool = False
     PHOENIX_URL: str = "http://localhost:6006"
-    PHOENIX_PROJECT_NAME: str = "holosophos"
+    PHOENIX_PROJECT_NAME: str = "holosophos_erc"
     PHOENIX_ENDPOINT: Optional[str] = None
 
     PORT: int = 5055

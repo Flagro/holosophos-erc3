@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: holosophos
+    container_name: holosophos_erc
     environment:
       - CODEARKT_EXECUTOR_URL=http://executor:8000
       - ACADEMIA_MCP_URL=http://academia:${ACADEMIA_PORT:-5056}/mcp
@@ -26,7 +26,7 @@ services:
         condition: service_healthy
     ports:
       - "${APP_PORT:-5055}:5055"
-    command: ["python", "-m", "holosophos.server", "--port", "5055", "--enable-phoenix"]
+    command: ["python", "-m", "holosophos_erc.server", "--port", "5055", "--enable-phoenix"]
 
   executor:
     image: phoenix120/codearkt_http@sha256:8866223c75d644f51d0da5f12a8400ae4aa62262d5331b0e69dc7a3576055873

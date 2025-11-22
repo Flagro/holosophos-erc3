@@ -7,7 +7,7 @@ import yaml
 from jinja2 import Environment, Template
 
 try:
-    from holosophos.files import PROMPTS_DIR_PATH
+    from holosophos_erc.files import PROMPTS_DIR_PATH
 except ImportError:
     # Fallback for standalone usage
     PROMPTS_DIR_PATH = Path(__file__).parent / "prompts"

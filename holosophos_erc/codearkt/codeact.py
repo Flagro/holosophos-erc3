@@ -11,14 +11,14 @@ from typing import List, Optional, Self, Sequence
 
 from mcp import Tool
 
-from holosophos.codearkt.event_bus import AgentEventBus, EventType
-from holosophos.codearkt.llm import LLM, ChatMessage, ChatMessages
-from holosophos.codearkt.metrics import TokenUsageStore
-from holosophos.codearkt.prompt_storage import PromptStorage
-from holosophos.codearkt.python_executor import PythonExecutor
-from holosophos.settings import settings
-from holosophos.codearkt.tools import fetch_tools
-from holosophos.codearkt.util import get_unique_id, truncate_content
+from holosophos_erc.codearkt.event_bus import AgentEventBus, EventType
+from holosophos_erc.codearkt.llm import LLM, ChatMessage, ChatMessages
+from holosophos_erc.codearkt.metrics import TokenUsageStore
+from holosophos_erc.codearkt.prompt_storage import PromptStorage
+from holosophos_erc.codearkt.python_executor import PythonExecutor
+from holosophos_erc.settings import settings
+from holosophos_erc.codearkt.tools import fetch_tools
+from holosophos_erc.codearkt.util import get_unique_id, truncate_content
 
 
 @dataclass

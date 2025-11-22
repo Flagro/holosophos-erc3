@@ -5,11 +5,11 @@ from typing import Any
 import fire  # type: ignore
 from uvicorn.config import LOGGING_CONFIG as UVICORN_LOGGING_CONFIG
 from phoenix.otel import register
-from holosophos.codearkt.otel import CodeActInstrumentor
-from holosophos.codearkt.server import run_server
+from holosophos_erc.codearkt.otel import CodeActInstrumentor
+from holosophos_erc.codearkt.server import run_server
 
-from holosophos.main_agent import MCP_CONFIG, compose_main_agent
-from holosophos.settings import settings
+from holosophos_erc.main_agent import MCP_CONFIG, compose_main_agent
+from holosophos_erc.settings import settings
 
 
 def configure_uvicorn_style_logging(level: int = logging.INFO) -> None:

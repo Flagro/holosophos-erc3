@@ -3,7 +3,7 @@ from typing import Any, Dict
 import yaml
 from jinja2 import Template
 
-from holosophos.files import PROMPTS_DIR_PATH
+from holosophos_erc.files import PROMPTS_DIR_PATH
 
 
 def get_prompt(template_name: str) -> Dict[str, Any]:

@@ -1,11 +1,11 @@
 import logging
 from typing import Optional, Sequence
 
-from holosophos.codearkt.codeact import CodeActAgent
-from holosophos.codearkt.prompt_storage import PromptStorage
-from holosophos.codearkt.llm import LLM
+from holosophos_erc.codearkt.codeact import CodeActAgent
+from holosophos_erc.codearkt.prompt_storage import PromptStorage
+from holosophos_erc.codearkt.llm import LLM
 
-from holosophos.files import PROMPTS_DIR_PATH
+from holosophos_erc.files import PROMPTS_DIR_PATH
 
 NAME = "mle_solver"
 DESCRIPTION = """This team member is an engineer who writes code and runs computational experiments.

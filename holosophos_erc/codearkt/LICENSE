@@ -208,16 +208,16 @@ License 2.0.
 
 The following modifications have been made to the original CodeArkt code:
 
-1. All import statements have been updated to use the 'holosophos.codearkt' 
+1. All import statements have been updated to use the 'holosophos_erc.codearkt' 
    namespace instead of 'codearkt' to avoid conflicts with the external 
    package and enable embedding within the Holosophos project.
 
 2. Module references in the OpenTelemetry instrumentation (otel.py) have been 
-   updated to reflect the new namespace (holosophos.codearkt.codeact, 
-   holosophos.codearkt.python_executor).
+   updated to reflect the new namespace (holosophos_erc.codearkt.codeact, 
+   holosophos_erc.codearkt.python_executor).
 
 3. The instrumentation_dependencies() method in otel.py now returns 
-   ["holosophos.codearkt"] instead of ["codearkt"].
+   ["holosophos_erc.codearkt"] instead of ["codearkt"].
 
 These modifications are minimal and only affect module paths and imports. The 
 core functionality of the CodeArkt framework remains unchanged.

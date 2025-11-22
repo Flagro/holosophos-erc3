@@ -3,16 +3,16 @@ from typing import Any, Optional, Sequence
 
 import fire  # type: ignore
 from phoenix.otel import register
-from holosophos.codearkt.codeact import CodeActAgent
-from holosophos.codearkt.prompt_storage import PromptStorage
-from holosophos.codearkt.llm import LLM
-from holosophos.codearkt.otel import CodeActInstrumentor
-from holosophos.codearkt.server import run_query
+from holosophos_erc.codearkt.codeact import CodeActAgent
+from holosophos_erc.codearkt.prompt_storage import PromptStorage
+from holosophos_erc.codearkt.llm import LLM
+from holosophos_erc.codearkt.otel import CodeActInstrumentor
+from holosophos_erc.codearkt.server import run_query
 
-from holosophos.files import PROMPTS_DIR_PATH
-from holosophos.settings import settings
+from holosophos_erc.files import PROMPTS_DIR_PATH
+from holosophos_erc.settings import settings
 
-from holosophos.agents import (
+from holosophos_erc.agents import (
     get_librarian_agent,
     get_mle_solver_agent,
     get_writer_agent,

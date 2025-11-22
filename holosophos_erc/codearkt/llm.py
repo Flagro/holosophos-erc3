@@ -8,7 +8,7 @@ from openai.types.chat.chat_completion_message_param import ChatCompletionMessag
 from pydantic import BaseModel
 from tiktoken import encoding_for_model
 
-from holosophos.settings import settings
+from holosophos_erc.settings import settings
 
 HEADERS = {
     "HTTP-Referer": settings.HTTP_REFERRER,

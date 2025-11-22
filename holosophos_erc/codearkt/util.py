@@ -7,7 +7,7 @@ from contextlib import suppress
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from holosophos.settings import settings
+from holosophos_erc.settings import settings
 
 
 def get_unique_id() -> str:

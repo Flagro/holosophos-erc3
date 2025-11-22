@@ -20,9 +20,9 @@ from openinference.instrumentation.openai import OpenAIInstrumentor
 
 from wrapt import wrap_function_wrapper  # type: ignore
 
-from holosophos.codearkt.codeact import CodeActAgent
-from holosophos.codearkt.python_executor import PythonExecutor, ExecResult
-from holosophos.codearkt.llm import ChatMessage
+from holosophos_erc.codearkt.codeact import CodeActAgent
+from holosophos_erc.codearkt.python_executor import PythonExecutor, ExecResult
+from holosophos_erc.codearkt.llm import ChatMessage
 
 logger = logging.getLogger(__name__)
 
@@ -260,7 +260,7 @@ class CodeActInstrumentor(BaseInstrumentor):  # type: ignore
     _tracer: OITracer
 
     def instrumentation_dependencies(self) -> Collection[str]:
-        return ["holosophos.codearkt"]
+        return ["holosophos_erc.codearkt"]
 
     def _instrument(self, **kwargs: Any) -> None:
         if not (tracer_provider := kwargs.get("tracer_provider")):
@@ -284,7 +284,7 @@ class CodeActInstrumentor(BaseInstrumentor):  # type: ignore
         self._original_step_method = getattr(CodeActAgent, "_step", None)
         step_wrapper = _StepWrapper(tracer=self._tracer)
         wrap_function_wrapper(
-            module="holosophos.codearkt.codeact",
+            module="holosophos_erc.codearkt.codeact",
             name="CodeActAgent._step",
             wrapper=step_wrapper,
         )
@@ -292,7 +292,7 @@ class CodeActInstrumentor(BaseInstrumentor):  # type: ignore
         self._original_final_method = getattr(CodeActAgent, "_handle_final_message", None)
         handle_final_message_wrapper = _StepWrapper(tracer=self._tracer)
         wrap_function_wrapper(
-            module="holosophos.codearkt.codeact",
+            module="holosophos_erc.codearkt.codeact",
             name="CodeActAgent._handle_final_message",
             wrapper=handle_final_message_wrapper,
         )
@@ -300,7 +300,7 @@ class CodeActInstrumentor(BaseInstrumentor):  # type: ignore
         self._original_ainvoke_method = getattr(CodeActAgent, "ainvoke", None)
         ainvoke_wrapper = _AinvokeWrapper(tracer=self._tracer)
         wrap_function_wrapper(
-            module="holosophos.codearkt.codeact",
+            module="holosophos_erc.codearkt.codeact",
             name="CodeActAgent.ainvoke",
             wrapper=ainvoke_wrapper,
         )
@@ -308,7 +308,7 @@ class CodeActInstrumentor(BaseInstrumentor):  # type: ignore
         self._original_tool_ainvoke_method = getattr(PythonExecutor, "ainvoke", None)
         tool_wrapper = _ToolWrapper(tracer=self._tracer)
         wrap_function_wrapper(
-            module="holosophos.codearkt.python_executor",
+            module="holosophos_erc.codearkt.python_executor",
             name="PythonExecutor.ainvoke",
             wrapper=tool_wrapper,
         )

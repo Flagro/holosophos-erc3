@@ -9,13 +9,13 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml README.md /app/
-COPY holosophos /app/holosophos
+COPY holosophos_erc /app/holosophos_erc
 RUN pip install --no-cache-dir .
 
 EXPOSE 5055
 ENV PHOENIX_URL=http://phoenix:6006 \
-    PHOENIX_PROJECT_NAME=holosophos \
+    PHOENIX_PROJECT_NAME=holosophos_erc \
     ACADEMIA_MCP_URL=http://academia:5056/mcp \
     CODEARKT_EXECUTOR_URL=http://executor:8000
 
-CMD ["python", "-m", "holosophos.server", "--port", "5055"]
+CMD ["python", "-m", "holosophos_erc.server", "--port", "5055"]

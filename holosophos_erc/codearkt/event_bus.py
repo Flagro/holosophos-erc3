@@ -5,7 +5,7 @@ from typing import Any, AsyncGenerator, Dict, List, Optional
 
 from pydantic import BaseModel
 
-from holosophos.settings import settings
+from holosophos_erc.settings import settings
 
 
 class EventType(StrEnum):

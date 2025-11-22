@@ -21,12 +21,12 @@ from fastmcp.mcp_config import (
 from pydantic import BaseModel
 from sse_starlette.sse import AppStatus
 
-from holosophos.codearkt.codeact import CodeActAgent
-from holosophos.codearkt.event_bus import AgentEventBus
-from holosophos.codearkt.llm import ChatMessage
-from holosophos.codearkt.metrics import TokenUsageStore
-from holosophos.settings import settings
-from holosophos.codearkt.util import append_jsonl_atomic, find_free_port, get_unique_id
+from holosophos_erc.codearkt.codeact import CodeActAgent
+from holosophos_erc.codearkt.event_bus import AgentEventBus
+from holosophos_erc.codearkt.llm import ChatMessage
+from holosophos_erc.codearkt.metrics import TokenUsageStore
+from holosophos_erc.settings import settings
+from holosophos_erc.codearkt.util import append_jsonl_atomic, find_free_port, get_unique_id
 
 
 fastmcp_settings.stateless_http = True

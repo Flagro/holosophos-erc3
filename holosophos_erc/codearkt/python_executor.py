@@ -14,10 +14,10 @@ from docker.models.networks import Network
 from httpx import AsyncClient, HTTPError, Limits, RequestError, TimeoutException
 from pydantic import BaseModel, ValidationError
 
-from holosophos.codearkt.llm import ChatMessage
-from holosophos.settings import settings
-from holosophos.codearkt.tools import fetch_tools
-from holosophos.codearkt.util import get_unique_id, is_correct_json, truncate_content
+from holosophos_erc.codearkt.llm import ChatMessage
+from holosophos_erc.settings import settings
+from holosophos_erc.codearkt.tools import fetch_tools
+from holosophos_erc.codearkt.util import get_unique_id, is_correct_json, truncate_content
 
 IMAGE: str = settings.EXECUTOR_IMAGE
 EXTERNAL_URL_ENV = settings.CODEARKT_EXECUTOR_URL

@@ -17,10 +17,10 @@ Built on top of:
 - **Reviewer**: Reviews papers with venue-grade criteria.
 
 ### Architecture at a glance
-- Server entrypoint: `holosophos.server` (starts a CodeArkt server with the composed agent team)
-- Agent composition: `holosophos.main_agent.compose_main_agent`
-- Agent prompts: `holosophos/prompts/*.yaml`
-- Settings: `holosophos/settings.py` (env-driven via `pydantic-settings`)
+- Server entrypoint: `holosophos_erc.server` (starts a CodeArkt server with the composed agent team)
+- Agent composition: `holosophos_erc.main_agent.compose_main_agent`
+- Agent prompts: `holosophos_erc/prompts/*.yaml`
+- Settings: `holosophos_erc/settings.py` (env-driven via `pydantic-settings`)
 - External MCPs:
   - `academia_mcp` (papers/search)
   - `mle_kit_mcp` (remote GPU execution, file ops)
@@ -50,7 +50,7 @@ VAST_AI_KEY=...
 
 # Optional observability
 PHOENIX_URL=http://localhost:6006
-PHOENIX_PROJECT_NAME=holosophos
+PHOENIX_PROJECT_NAME=holosophos_erc
 
 # MCP endpoints when running locally
 ACADEMIA_MCP_URL=http://0.0.0.0:5056/mcp
@@ -61,7 +61,7 @@ MODEL_NAME=deepseek/deepseek-chat-v3.1
 PORT=5055
 ```
 
-Holosophos reads configuration from `holosophos/settings.py`. You can override any setting via environment variables (case-insensitive), for example `MODEL_NAME`, `MAX_COMPLETION_TOKENS`, `ENABLE_PHOENIX=true`, or custom `PHOENIX_ENDPOINT`.
+Holosophos reads configuration from `holosophos_erc/settings.py`. You can override any setting via environment variables (case-insensitive), for example `MODEL_NAME`, `MAX_COMPLETION_TOKENS`, `ENABLE_PHOENIX=true`, or custom `PHOENIX_ENDPOINT`.
 
 ### Quickstart: Local (multi-process)
 Open separate terminals and run:
@@ -83,7 +83,7 @@ uv run python -m mle_kit_mcp --port 5057 --workspace workdir
 
 4) Holosophos server
 ```bash
-uv run python -m holosophos.server --port 5055 --enable-phoenix
+uv run python -m holosophos_erc.server --port 5055 --enable-phoenix
 ```
 
 5) Client UI (choose one)
@@ -162,7 +162,7 @@ uv run python -m codearkt.terminal
 ```
 
 #### Customizing the model and tracing
-- Set `MODEL_NAME` in `.env` (or export it) to change the model (default comes from `holosophos/settings.py`).
+- Set `MODEL_NAME` in `.env` (or export it) to change the model (default comes from `holosophos_erc/settings.py`).
 - Enable tracing by setting `ENABLE_PHOENIX=true` and ensuring Phoenix is up. The app will send OTLP traces to `${PHOENIX_URL}/v1/traces` unless `PHOENIX_ENDPOINT` is provided.
 
 #### Security note
@@ -176,7 +176,7 @@ The server composes a manager agent with five specialists:
 - **proposer**: ideates and scores research proposals
 - **reviewer**: reviews papers using venue-style rubrics
 
-Prompts live under `holosophos/prompts/` and can be customized per agent (`*.yaml`). Tool sets and iteration limits are configured in `holosophos/settings.py` and can be overridden via environment variables.
+Prompts live under `holosophos_erc/prompts/` and can be customized per agent (`*.yaml`). Tool sets and iteration limits are configured in `holosophos_erc/settings.py` and can be overridden via environment variables.
 
 ### Development
 - Install dev tools: `make install`
