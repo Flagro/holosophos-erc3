@@ -5,8 +5,8 @@ from typing import Any
 import fire  # type: ignore
 from uvicorn.config import LOGGING_CONFIG as UVICORN_LOGGING_CONFIG
 from phoenix.otel import register
-from codearkt.otel import CodeActInstrumentor
-from codearkt.server import run_server
+from holosophos.codearkt.otel import CodeActInstrumentor
+from holosophos.codearkt.server import run_server
 
 from holosophos.main_agent import MCP_CONFIG, compose_main_agent
 from holosophos.settings import settings

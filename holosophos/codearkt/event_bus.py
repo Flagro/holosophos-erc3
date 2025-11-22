@@ -1,0 +1,101 @@
+import asyncio
+from collections import defaultdict
+from enum import StrEnum
+from typing import Any, AsyncGenerator, Dict, List, Optional
+
+from pydantic import BaseModel
+
+from holosophos.settings import settings
+
+
+class EventType(StrEnum):
+    AGENT_START = "agent_start"
+    OUTPUT = "output"
+    PLANNING_OUTPUT = "planning_output"
+    TOOL_RESPONSE = "observation"
+    AGENT_END = "agent_end"
+    AGENT_INTERRUPTED = "agent_interrupted"
+
+
+class AgentEvent(BaseModel):  # type: ignore
+    session_id: str
+    agent_name: str
+    event_type: EventType
+    content: Optional[str] = None
+
+
+class AgentEventBus:
+    def __init__(self) -> None:
+        self.queues: Dict[str, asyncio.Queue[AgentEvent]] = {}
+        self.running_tasks: Dict[str, List[asyncio.Task[Any]]] = defaultdict(list)
+        self.root_agent_name: Dict[str, str] = {}
+
+    def register_task(
+        self, session_id: str, agent_name: str, task: asyncio.Task[Any] | None
+    ) -> None:
+        if session_id not in self.running_tasks:
+            self.root_agent_name[session_id] = agent_name
+        if task is not None:
+            self.running_tasks[session_id].append(task)
+
+    def finish_session(self, session_id: str) -> None:
+        tasks = self.running_tasks.pop(session_id, [])
+        while tasks:
+            task = tasks.pop()
+            task.cancel()
+        self.root_agent_name.pop(session_id, None)
+        self.queues.pop(session_id, None)
+
+    async def publish_event(
+        self,
+        session_id: str,
+        agent_name: str,
+        event_type: EventType = EventType.OUTPUT,
+        content: Optional[str] = None,
+    ) -> None:
+        event = AgentEvent(
+            session_id=session_id,
+            agent_name=agent_name,
+            event_type=event_type,
+            content=content,
+        )
+        if event.session_id not in self.queues:
+            self.queues[event.session_id] = asyncio.Queue()
+        await self.queues[event.session_id].put(event)
+
+    async def _get_event(self, session_id: str, root_agent_name: str) -> AgentEvent:
+        queue = self.queues.get(session_id)
+        while queue is not None:
+            try:
+                event = await asyncio.wait_for(queue.get(), timeout=settings.FINISH_WAIT_TIMEOUT)
+                return event
+            except asyncio.TimeoutError:
+                await asyncio.sleep(0.1)
+            queue = self.queues.get(session_id)
+        return AgentEvent(
+            session_id=session_id,
+            agent_name=root_agent_name,
+            event_type=EventType.AGENT_INTERRUPTED,
+        )
+
+    async def stream_events(self, session_id: str) -> AsyncGenerator[AgentEvent, None]:
+        if session_id not in self.queues:
+            self.queues[session_id] = asyncio.Queue()
+        assert session_id in self.root_agent_name, f"Session {session_id} is not tied to an agent"
+        root_agent_name = self.root_agent_name[session_id]
+        is_agent_end = False
+        is_root_agent = False
+        while not (is_agent_end and is_root_agent):
+            try:
+                event = await asyncio.wait_for(
+                    self._get_event(session_id, root_agent_name),
+                    timeout=settings.EVENT_BUS_STREAM_TIMEOUT,
+                )
+                yield event
+                is_agent_end = event.event_type in (
+                    EventType.AGENT_END,
+                    EventType.AGENT_INTERRUPTED,
+                )
+                is_root_agent = event.agent_name == root_agent_name
+            except asyncio.TimeoutError:
+                break

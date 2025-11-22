@@ -3,11 +3,11 @@ from typing import Any, Optional, Sequence
 
 import fire  # type: ignore
 from phoenix.otel import register
-from codearkt.codeact import CodeActAgent
-from codearkt.prompt_storage import PromptStorage
-from codearkt.llm import LLM
-from codearkt.otel import CodeActInstrumentor
-from codearkt.server import run_query
+from holosophos.codearkt.codeact import CodeActAgent
+from holosophos.codearkt.prompt_storage import PromptStorage
+from holosophos.codearkt.llm import LLM
+from holosophos.codearkt.otel import CodeActInstrumentor
+from holosophos.codearkt.server import run_query
 
 from holosophos.files import PROMPTS_DIR_PATH
 from holosophos.settings import settings

@@ -1,6 +1,7 @@
 import logging
 from typing import Optional, Sequence
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,6 +22,41 @@ class Settings(BaseSettings):
     WORKSPACE_DIR: str = "./workdir"
 
     VERBOSITY_LEVEL: int = logging.INFO
+
+    # CodeArkt settings
+    PLANNING_LAST_N: int = 50
+    PLANNING_CONTENT_MAX_LENGTH: int = 4000
+    DEFAULT_MAX_ITERATIONS: int = 20
+    MAX_LENGTH_TRUNCATE_CONTENT: int = 20000
+
+    AGENT_TOOL_PREFIX: str = "agent__"
+
+    DEFAULT_SERVER_HOST: str = "0.0.0.0"
+    DEFAULT_SERVER_PORT: int = 5055
+
+    # Executor settings
+    CODEARKT_EXECUTOR_URL: Optional[str] = None
+    EXECUTOR_IMAGE: str = (
+        "phoenix120/codearkt_http@sha256:e00d11db4bc70918f61ebd53e19b0b2f382af6165346322af401b701118404e1"
+    )
+    DOCKER_MEM_LIMIT: str = "1g"
+    DOCKER_CPU_QUOTA: int = 50000
+    DOCKER_CPU_PERIOD: int = 100000
+    DOCKER_CLEANUP_TIMEOUT: int = 10
+    DOCKER_PIDS_LIMIT: int = 256
+    DOCKER_NET_NAME: str = "codearkt_sandbox_net"
+
+    # Timeout settings
+    EVENT_BUS_STREAM_TIMEOUT: int = 24 * 60 * 60
+    FINISH_WAIT_TIMEOUT: int = 10
+    EXEC_TIMEOUT: int = 24 * 60 * 60
+    PROXY_SSE_READ_TIMEOUT: int = 12 * 60 * 60
+
+    # OpenRouter settings
+    BASE_URL: str = "https://openrouter.ai/api/v1"
+    OPENROUTER_API_KEY: str = ""
+    HTTP_REFERRER: str = "https://github.com/IlyaGusev/codearkt/"
+    X_TITLE: str = "CodeArkt"
 
     MANAGER_MAX_ITERATIONS: int = 100
     MANAGER_PLANNING_INTERVAL: int = 9
@@ -115,6 +151,13 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env", env_prefix="", case_sensitive=False, extra="ignore"
     )
+
+    @field_validator("OPENROUTER_API_KEY")  # type: ignore
+    @classmethod
+    def validate_api_key(cls, v: str) -> str:
+        if not v or v.strip() == "":
+            raise ValueError("OPENROUTER_API_KEY must not be empty")
+        return v
 
     @property
     def RESOLVED_PHOENIX_ENDPOINT(self) -> str:

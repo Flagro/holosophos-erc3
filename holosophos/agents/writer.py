@@ -1,9 +1,9 @@
 import logging
 from typing import Optional, Sequence
 
-from codearkt.codeact import CodeActAgent
-from codearkt.prompt_storage import PromptStorage
-from codearkt.llm import LLM
+from holosophos.codearkt.codeact import CodeActAgent
+from holosophos.codearkt.prompt_storage import PromptStorage
+from holosophos.codearkt.llm import LLM
 
 from holosophos.files import PROMPTS_DIR_PATH
 
